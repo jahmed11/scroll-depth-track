@@ -10,7 +10,7 @@ function debounce(func, wait) {
     timeout = setTimeout(later, wait);
   };
 }
-/**  get the element and its total scroll heigh */
+/**  Get the element and its total scroll height */
 const articleBody = document.getElementById("page-container");
 const articleHeight = articleBody.scrollHeight;
 
@@ -26,10 +26,10 @@ function trackScrollDepth() {
   function checkScrollDepth() {
     const scrollTop = window.pageYOffset;
 
-    // Calculate scrolled percentage relative to the article height
+
     const scrolledPercentage = Math.min((scrollTop / articleHeight) * 100, 100);
     console.log("scrolledPercentage", scrolledPercentage);
-    // Dispatch events at 25%, 50%, and 100% when those thresholds are reached
+
     thresholds.forEach((threshold) => {
       if (scrolledPercentage >= threshold && !scrollDepthsReached.has(threshold)) {
         scrollDepthsReached.add(threshold);
@@ -38,7 +38,7 @@ function trackScrollDepth() {
     });
   }
 
-  // Dispatch a custom event with the scroll percentage as detail
+
   function dispatchScrollEvent(percentage) {
     const event = new CustomEvent("scrollDepthReached", {
       detail: { percentage },
@@ -47,14 +47,14 @@ function trackScrollDepth() {
     console.log(`Scroll depth reached: ${percentage}%`);
   }
 
-  // Attach the debounced scroll event listener to check scroll depth on user scroll
+
   window.addEventListener("scroll", debounce(checkScrollDepth, 100));
 }
 
-// Initialize the scroll tracking
+
 trackScrollDepth();
 
-// Example: Listen for custom scroll depth events and display the progress
+
 window.addEventListener("scrollDepthReached", (event) => {
   alert(`You've scrolled ${event.detail.percentage}% of the article!`);
 });
